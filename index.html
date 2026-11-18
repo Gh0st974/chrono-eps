@@ -34,6 +34,101 @@
   .list-view .student-card{grid-template-columns:minmax(330px,1.2fr) minmax(110px,.65fr) minmax(150px,.9fr) minmax(260px,1fr)}
   .list-view .student-name{flex:0 1 200px;width:200px;min-width:0;max-width:210px}
 }
+/* Adaptation portrait smartphone/tablette : les règles paysage restent inchangées. */
+@media (orientation: portrait) and (max-width: 768px) {
+  html, body { min-height: 100%; height: auto; }
+  body { overflow-x: hidden; overflow-y: auto; }
+  .app { height: auto; min-height: 100dvh; max-width: none; }
+  .topline { height: 38px; min-height: 38px; padding: 0 9px; gap: 8px; }
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "left center" "right right";
+    gap: 4px 6px; padding: 4px 6px; align-items: center;
+  }
+  .tool-zone { min-width: 0; gap: 4px; }
+  .tool-zone.left {
+    grid-area: left; width: auto; flex-wrap: nowrap; justify-content: flex-start;
+    overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  }
+  .tool-zone.left::-webkit-scrollbar, .tool-zone.right::-webkit-scrollbar { display: none; }
+  .tool-zone.center {
+    grid-area: center; width: auto; flex-wrap: nowrap; justify-content: flex-end;
+  }
+  .tool-zone.right {
+    grid-area: right; width: 100%; flex-wrap: nowrap; justify-content: flex-start;
+    overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  }
+  .tool-zone button { flex: 0 0 auto; min-height: 30px; padding: 4px 6px; font-size: 10px; }
+  .series-select { max-width: 112px; }
+  .view-select { max-width: 94px; }
+  .toolbar .count { font-size: 10px; }
+  .main { flex: 1 0 auto; min-height: 0; padding: 5px 7px 7px; }
+  .grid-meta { gap: 6px; padding: 0 2px 5px; }
+  .grid-meta .keyhint { display: none; }
+  .cards-container,
+  .cards-container:has(> #cards-grid.cols4),
+  .cards-container:has(> #cards-grid.list-view) {
+    width: 100%; max-width: 100%; height: auto; max-height: none;
+    flex: 0 0 auto; margin: 0; padding: 5px 3px 10px;
+    overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  .cards-grid, .cards-grid.cols4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none; height: auto; gap: 8px; align-content: start;
+  }
+  .student-card { min-width: 0; min-height: 184px; padding: 9px; }
+  .card-head { gap: 5px; min-height: 34px; }
+  .student-name { min-width: 0; font-size: 14px; padding: 7px; }
+  .card-delete { width: 40px; height: 40px; min-height: 40px; }
+  .card-delete svg { width: 17px; height: 17px; }
+  .clock { font-size: clamp(2rem, 8vw, 2.6rem); }
+  .cols4 .clock { font-size: clamp(2rem, 8vw, 2.6rem); }
+  .list-view .student-card {
+    min-height: 0; padding: 9px; grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "clock" "subline" "actions"; gap: 5px;
+  }
+  .list-view .card-head { grid-area: head; min-width: 0; flex-wrap: wrap; }
+  .list-view .card-head .drag-handle { order: 0; }
+  .list-view .student-name {
+    order: 2; flex: 1 0 100%; width: 100%; min-width: 0; max-width: none;
+    font-size: 14px;
+  }
+  .list-view .card-head .status { order: 1; }
+  .list-view .card-delete { order: 3; }
+  .list-view .clock-face { grid-area: clock; min-height: 52px; justify-content: center; }
+  .list-view .clock { font-size: clamp(2rem, 8vw, 2.6rem); }
+  .list-view .subline {
+    grid-area: subline; min-width: 0; flex-wrap: wrap; justify-content: flex-start;
+    white-space: normal; overflow-wrap: anywhere;
+  }
+  .list-view .last-lap { white-space: normal; overflow-wrap: anywhere; }
+  .list-view .card-actions {
+    grid-area: actions; width: 100%; max-width: none; justify-self: stretch; margin: 2px 0 0;
+  }
+  .card-actions { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 44px; gap: 7px; }
+  .card-actions button { min-height: 48px; padding: 7px 5px; font-size: 12px; }
+  .card-actions .btn-reset { min-height: 48px; }
+  .footnote { gap: 8px; flex-wrap: wrap; padding: 5px 2px 0; }
+  .modal-backdrop { align-items: center; padding: 2dvh 2vw; }
+  .modal, .modal.narrow { width: 96vw; max-width: 96vw; max-height: 90dvh; }
+  .modal-head { gap: 8px; padding: 10px 11px; }
+  .modal-body { padding: 10px; overflow: auto; }
+  .modal-foot { padding: 9px 10px; gap: 7px; }
+  .kanban { gap: 9px; min-height: 30dvh; overflow-x: auto; }
+  .kanban-column {
+    flex: 0 0 82vw; width: 82vw; min-width: 82vw; max-width: 82vw;
+    max-height: 54dvh;
+  }
+}
+@media (orientation: portrait) and (max-width: 599px) {
+  .cards-grid, .cards-grid.cols4 { grid-template-columns: minmax(0, 1fr); }
+  .tool-zone.center { gap: 3px; }
+  .series-select { max-width: 96px; }
+  .view-select { max-width: 86px; }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#121316">

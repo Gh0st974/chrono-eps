@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chrono-eps-v1';
+const CACHE_NAME = 'chrono-eps-v2';
 const APP_SHELL = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', event => {
