@@ -1,10 +1,19 @@
-const CACHE_NAME = 'chrono-eps-v3';
-const APP_SHELL = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-192.png', 'icon-512.png'];
+const CACHE_NAME = 'chrono-eps-v4';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png'
+];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await cache.addAll(['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-192.png', 'icon-512.png']);
+    await cache.addAll(APP_SHELL);
     await self.skipWaiting();
   })());
 });
@@ -24,30 +33,20 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isNetworkFirst = request.mode === 'navigate'
-    || request.destination === 'document'
-    || request.destination === 'iframe'
-    || /\.html?$/i.test(url.pathname)
-    || /\/manifest\.json$/i.test(url.pathname)
-    || /\/sw\.js$/i.test(url.pathname);
-
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
+    const isNavigation = request.mode === 'navigate';
 
-    if (isNetworkFirst) {
+    if (isNavigation) {
       try {
         const response = await fetch(request, { cache: 'no-cache' });
         if (response.ok) await cache.put(request, response.clone());
         return response;
       } catch (error) {
-        if (cached) return cached;
-        if (request.mode === 'navigate') {
-          return (await cache.match(new URL('index.html', self.registration.scope).href))
-            || (await cache.match('index.html'))
-            || Response.error();
-        }
-        return Response.error();
+        const fallback = await cache.match(new URL('./index.html', self.registration.scope).href)
+          || await cache.match('./index.html');
+        return fallback || Response.error();
       }
     }
 

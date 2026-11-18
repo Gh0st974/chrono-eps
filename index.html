@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#191b1f">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Digi Sport — Chrono EPS</title>
 <style>
 :root{color-scheme:dark;--bg:#121316;--bar:#1a1c21;--card:#1f2228;--line:#2e323b;--soft:#2e323b;--text:#f0f2f5;--muted:#a6adb8;--orange:#ff6b00;--orange2:#ff7a1a;--green:#2b8a3e;--mint:#38d9a9;--red:#d9383a}
@@ -130,14 +130,14 @@
 }
 
 </style>
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#121316">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Chrono EPS">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon-192.png">
 </head>
 <body>
 <div class="app">
@@ -247,7 +247,7 @@ if ('serviceWorker' in navigator) {
 
   navigator.serviceWorker.addEventListener('controllerchange', reloadWhenSafe);
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+    navigator.serviceWorker.register('./sw.js', { scope: './', updateViaCache: 'none' })
       .then(reg => {
         registration = reg;
         return registration.update();
