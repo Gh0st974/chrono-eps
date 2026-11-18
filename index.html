@@ -215,6 +215,51 @@ $('kanban').addEventListener('change',e=>{const inp=e.target.closest('[data-seri
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop:not([hidden])').forEach(m=>closeModal(m.id))});
 attachPointer($('cards-grid'),'card');attachPointer($('kanban'),'person');const restoreWall=wall(),restorePerf=perf();for(const s of allStudents())if(s.running){s.elapsed+=Math.max(0,restoreWall-(s.startWall||restoreWall));s.startWall=restoreWall;s.startPerf=restorePerf}render();persist();requestAnimationFrame(tick);
 })();
-</script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}</script>
+</script><script>
+if ('serviceWorker' in navigator) {
+  const hadControllerAtLoad = !!navigator.serviceWorker.controller;
+  let refreshing = false;
+  let registration = null;
+  let reloadCheck = null;
+
+  function hasRunningChrono() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('digiSportEps.v1'));
+      return !!saved && Array.isArray(saved.series)
+        && saved.series.some(series => Array.isArray(series.students)
+          && series.students.some(student => student && student.running));
+    } catch (error) {
+      // En cas de stockage inaccessible/illisible, ne pas recharger à l'aveugle.
+      return true;
+    }
+  }
+
+  function reloadWhenSafe() {
+    if (!hadControllerAtLoad || refreshing) return;
+    if (hasRunningChrono()) {
+      if (reloadCheck === null) reloadCheck = window.setInterval(reloadWhenSafe, 500);
+      return;
+    }
+    refreshing = true;
+    if (reloadCheck !== null) window.clearInterval(reloadCheck);
+    window.location.reload();
+  }
+
+  navigator.serviceWorker.addEventListener('controllerchange', reloadWhenSafe);
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(reg => {
+        registration = reg;
+        return registration.update();
+      })
+      .catch(() => {});
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && registration) {
+      registration.update().catch(() => {});
+    }
+  });
+}
+</script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 </body></html>
