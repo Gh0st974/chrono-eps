@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#121316"/>
+  <g fill="none" stroke="#ff6b00" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="30" d="M226 73h60M256 94V70m-41 0h82"/>
+    <path stroke-width="28" d="M344 134l27-27"/>
+    <circle cx="256" cy="259" r="142" stroke-width="28"/>
+    <path stroke-width="23" d="M256 170v91l65 43"/>
+  </g>
+  <circle cx="256" cy="259" r="14" fill="#ff6b00"/>
+  <text x="256" y="452" text-anchor="middle" fill="#ff6b00" font-family="Arial, sans-serif" font-size="37" font-weight="800" letter-spacing="2">DIGI SPORT</text>
+</svg>
